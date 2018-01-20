@@ -1,0 +1,7 @@
+{
+    "TITLE": "MY APP",
+    "DESCRIPTION": "HELLO WORLD APP",
+    "PAGE-1": {
+        "$ref": "./pages/page-1.json"
+    }
+}

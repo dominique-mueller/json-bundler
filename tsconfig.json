@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"declaration": true,
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"outDir": "./dist",
+		"removeComments": true,
+		"target": "es2017",
+		"sourceMap": true
+	},
+	"files": [
+		"index.ts"
+	]
+}
