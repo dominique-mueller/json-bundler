@@ -2,6 +2,18 @@
     "TITLE": "MY APP",
     "DESCRIPTION": "HELLO WORLD APP",
     "PAGE-1": {
-        "$ref": "./pages/page-1.json"
+        "$ref": "./pages/page-1.json",
+        "TITLE": "MY PAGE OVERWRITE",
+        "NAV": [
+            "HOME",
+            "SHOP",
+            "IMPRINT"
+        ]
+    },
+    "FOOTER": {
+        "CONTENT": {
+            "YEAR": "2018",
+            "$ref": "./pages/shared/footer.json"
+        }
     }
 }
