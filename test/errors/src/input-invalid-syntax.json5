@@ -1,0 +1,7 @@
+{
+    "NAME": "MY NAME",
+    "DESCRIPTION": "MY DESCRIPTION",
+    "CONTENT": {
+        "$ref": "./shared/invalid.json5" // Link
+    }
+}

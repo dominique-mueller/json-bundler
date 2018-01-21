@@ -1,0 +1,7 @@
+{
+    "CEO": "John Doe",
+    "COPYRIGHT": {
+        "$ref": "./copyright.json",
+        "YEAR": "1994"
+    }
+}

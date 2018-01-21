@@ -192,7 +192,7 @@ export class JSONBundler {
             fsExtra.outputFileSync( filePath, preparedContent, 'utf-8' );
         } catch ( writeFileError ) {
             throw new Error( [
-                `An error occured while reading the file "${ filePath }". [Code "${ writeFileError.code }", Number "${ writeFileError.errno }"]`
+                `An error occured while writing the file "${ filePath }". [Code "${ writeFileError.code }", Number "${ writeFileError.errno }"]`
             ].join( '\n' ) );
         }
 

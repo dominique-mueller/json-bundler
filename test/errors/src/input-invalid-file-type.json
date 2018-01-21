@@ -1,0 +1,7 @@
+{
+    "NAME": "MY NAME",
+    "DESCRIPTION": "MY DESCRIPTION",
+    "CONTENT": {
+        "$ref": "./does-not-exist.txt"
+    }
+}

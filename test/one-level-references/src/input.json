@@ -1,0 +1,7 @@
+{
+    "NAME": "MY NAME",
+    "DESCRIPTION": "MY DESCRIPTION",
+    "COPYRIGHT": {
+        "$ref": "./shared/copyright.json"
+    }
+}

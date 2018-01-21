@@ -1,0 +1,18 @@
+{
+	"collectCoverage": true,
+	"collectCoverageFrom" : [
+		"src/json-bundler.ts"
+	],
+	"coverageDirectory": "<rootDir>/coverage",
+	"mapCoverage": true,
+	"moduleFileExtensions": [
+		"js",
+		"ts"
+	],
+	"rootDir": ".",
+	"transform": {
+		"^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+	},
+	"testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|js)$",
+	"verbose": true
+}

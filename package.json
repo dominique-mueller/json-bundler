@@ -17,14 +17,21 @@
 		"url": "https://github.com/dominique-mueller/json-bundler/issues"
 	},
 	"keywords": [],
-	"scripts": {},
+	"scripts": {
+		"pretest": "copyfiles \"./test/node-module-references/src/json-bundler-test/**\" \"./node_modules\" --up 3",
+		"test": "jest --config jest.config.json --runInBand --no-cache"
+	},
 	"dependencies": {
 		"assign-deep": "0.4.x",
 		"fs-extra": "5.0.x",
 		"json5": "0.5.x"
 	},
 	"devDependencies": {
+		"@types/jest": "22.0.x",
 		"@types/node": "9.3.x",
+		"copyfiles": "1.2.x",
+		"jest": "22.1.x",
+		"ts-jest": "22.0.x",
 		"typescript": "2.6.x"
 	}
 }
