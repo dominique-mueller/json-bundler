@@ -1,0 +1,9 @@
+{
+    // This is the content
+    "NAME": "MY NAME",
+    "DESCRIPTION": "MY DESCRIPTION",
+    "FOOTER": {
+        "$ref": "./shared/footer.json",
+        "CEO": "Jane Doe" // Go woman!
+    }
+}

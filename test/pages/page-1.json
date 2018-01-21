@@ -1,7 +1,0 @@
-{
-    "TITLE": "MY FIRST PAGE",
-    "CONTENT": "BLA BLA BLA",
-    "TYPE": {
-        "$ref": "./shared/constants.json"
-    }
-}

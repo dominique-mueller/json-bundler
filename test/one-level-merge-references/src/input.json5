@@ -1,0 +1,9 @@
+{
+    // This is the content
+    "NAME": "MY NAME",
+    "DESCRIPTION": "MY DESCRIPTION",
+    "COPYRIGHT": {
+        "$ref": "./shared/copyright.json5",
+        "YEAR": "1994"
+    }
+}

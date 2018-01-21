@@ -1,0 +1,11 @@
+{
+    "NAME": "MY NAME",
+    "DESCRIPTION": "MY DESCRIPTION",
+    "FOOTER": {
+        "CEO": "Jane Doe",
+        "COPYRIGHT": {
+            "COPYRIGHT": "Copyright MyCompany",
+            "YEAR": "1994"
+        }
+    }
+}
