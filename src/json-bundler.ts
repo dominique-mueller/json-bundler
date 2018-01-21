@@ -17,16 +17,16 @@ export class JSONBundler {
     private files: { [ path: string ]: any };
 
     /**
-     * Reference symbol
+     * Root path
      */
-    private readonly referenceSymbol: string;
+    private readonly rootPath: string;
 
     /**
      * Constructor
      */
     constructor() {
         this.files = {};
-        this.referenceSymbol = '$ref';
+        this.rootPath = process.cwd();
     }
 
     /**
@@ -91,24 +91,18 @@ export class JSONBundler {
 
         const references: Array<JSONReference> = [];
 
-        // Handle objects (and thus arrays as well)
+        // Handle objects (this includes arrays)
         if ( value instanceof Object ) {
             Object
-                .keys( value )
+                .keys( value ) // Works for arrays as well
                 .forEach( ( key: string ): void => {
 
-                    // Save reference
-                    if ( key.toLowerCase().trim() === this.referenceSymbol ) {
-
-                        // Append file extension if not present
-                        const fullPath: string = path.extname( value[ key ] ) === ''
-                            ? `${ value[ key ] }.json`
-                            : value[ key ];
+                    // Check if reference
+                    if ( key.toLowerCase().trim() === '$ref' ) {
 
                         // Save reference
                         references.push( {
-                            // TODO: Resolve path correctly (node_modules, hash sign)
-                            path: path.resolve( basePath, fullPath ), // Full path
+                            path: this.resolveReferencePath( value[ key ], basePath ), // Full path
                             location: value
                         } );
 
@@ -124,6 +118,26 @@ export class JSONBundler {
         }
 
         return references;
+
+    }
+
+    private resolveReferencePath( referencePath: string, basePath: string ): string {
+
+        let resolvedReferencePath: string = referencePath;
+
+        // Add file extension if missing
+        if ( path.extname( resolvedReferencePath ) === '' ) {
+            resolvedReferencePath = `${ resolvedReferencePath }.json`;
+        }
+
+        // Resolve path
+        if ( referencePath[ 0 ] === '~' ) {
+            resolvedReferencePath = path.resolve( this.rootPath, 'node_modules', referencePath.substring( 1 ) );
+        } else {
+            resolvedReferencePath = path.resolve( basePath, resolvedReferencePath );
+        }
+
+        return resolvedReferencePath;
 
     }
 

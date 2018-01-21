@@ -15,5 +15,9 @@
             "YEAR": "2018",
             "$ref": "./pages/shared/footer.json"
         }
+    },
+    "TEST": {
+        "$ref": "~json-bundler-test/my-file.json",
+        "A": "AHA"
     }
 }
