@@ -17,16 +17,10 @@ export class JSONBundler {
     private files: { [ path: string ]: any };
 
     /**
-     * Root path
-     */
-    private readonly rootPath: string;
-
-    /**
      * Constructor
      */
     constructor() {
         this.files = {};
-        this.rootPath = process.cwd();
     }
 
     /**
@@ -36,8 +30,6 @@ export class JSONBundler {
      * @param outputPath - Output path
      */
     public bundle( inputPath: string, outputPath: string ): void {
-
-        debugger;
 
         // Resolve paths
         const fullInputPath: string = path.resolve( inputPath );
@@ -146,7 +138,7 @@ export class JSONBundler {
 
         // Resolve path
         if ( referencePath[ 0 ] === '~' ) {
-            resolvedReferencePath = path.resolve( this.rootPath, 'node_modules', referencePath.substring( 1 ) );
+            resolvedReferencePath = path.resolve( process.cwd(), 'node_modules', referencePath.substring( 1 ) );
         } else {
             resolvedReferencePath = path.resolve( path.dirname( filePath ), resolvedReferencePath );
         }
