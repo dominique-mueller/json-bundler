@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import * as deepmerge from 'deepmerge';
+import * as assignDeep from 'assign-deep';
 import * as fsExtra from 'fs-extra';
 
 import { JSONReference } from './json-reference.interface';
@@ -36,6 +36,8 @@ export class JSONBundler {
      * @param outputPath - Output path
      */
     public bundle( inputPath: string, outputPath: string ): void {
+
+        debugger;
 
         // Resolve paths
         const fullInputPath: string = path.resolve( inputPath );
@@ -72,11 +74,16 @@ export class JSONBundler {
         }
 
         // Get and references
-        this.findReferences( this.files[ reference.path ], path.dirname( reference.path ) )
-            .forEach( ( reference: JSONReference ): void => {
-                this.resolveReference( reference ); // Recursion
-                deepmerge( reference.location, this.files[ reference.path ] );
-            } );
+        const innerReferences: Array<JSONReference> = this.findReferences( this.files[ reference.path ], path.dirname( reference.path ) );
+        innerReferences.forEach( ( innerReference: JSONReference ): void => {
+
+            // Resolve inner references first (deeply recursive)
+            this.resolveReference( innerReference );
+
+            // Merge reference content into the reference location - while always prefering the 'higher reference' content
+            assignDeep( innerReference.location, this.files[ innerReference.path ], assignDeep( {}, innerReference.location ) );
+
+        } );
 
     }
 
@@ -121,6 +128,13 @@ export class JSONBundler {
 
     }
 
+    /**
+     * Resolve reference path
+     *
+     * @param referencePath
+     * @param basePath
+     * @returns
+     */
     private resolveReferencePath( referencePath: string, basePath: string ): string {
 
         let resolvedReferencePath: string = referencePath;
