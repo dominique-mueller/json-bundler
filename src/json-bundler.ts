@@ -38,6 +38,7 @@ export class JSONBundler {
 
         // Resolve references
         this.resolveReference( {
+            file: fullInputPath,
             path: fullInputPath,
         } );
 
@@ -58,7 +59,11 @@ export class JSONBundler {
 
         // Read the referenced file (if if has not yet happened already)
         if ( !this.files[ reference.path ] ) {
-            this.files[ reference.path ] = this.readFile( reference.path );
+            try {
+                this.files[ reference.path ] = this.readFile( reference.path );
+            } catch ( error ) {
+                throw new Error( `${ error.message }\nDetails: File is referenced in "${ reference.file }".` )
+            }
         }
 
         // If a location is missing, use the top level object
@@ -102,8 +107,9 @@ export class JSONBundler {
 
                         // Save reference
                         references.push( {
+                            file: filePath, // For error handling purposes only
                             path: this.resolveReferencePath( value[ key ], filePath ), // Full path
-                            location: value
+                            location: value // For merging
                         } );
 
                         // Delete reference itself
@@ -137,14 +143,37 @@ export class JSONBundler {
     /**
      * Read JSON file
      *
-     * @param filePath - Path (already resolved)
+     * @param   filePath - Path (already resolved)
+     * @returns          - Parsed file content
      */
     private readFile( filePath: string ): any {
-        const fileContent: string = fs.readFileSync( filePath, 'utf-8' );
-        const fileContentParsed: any = path.extname( filePath ) === '.json5'
-            ? JSON5.parse( fileContent )
-            : JSON.parse( fileContent );
+
+        // Check supported file types
+        const fileType: string = path.extname( filePath ).toLowerCase();
+        if ( !( fileType === '.json' || fileType === '.json5' ) ) {
+            throw new Error( `The file "${ filePath }" is not of type JSON / JSON5.` );
+        }
+
+        // Try to read the file
+        let fileContent: string;
+        try {
+            fileContent = fs.readFileSync( filePath, 'utf-8' );
+        } catch ( readFileError ) {
+            throw new Error( `An error occured while reading the file "${ filePath }". [Code "${ readFileError.code }", Number "${ readFileError.errno }"]` );
+        }
+
+        // Try to parse the file
+        let fileContentParsed: string;
+        try {
+            fileContentParsed = fileType === '.json5'
+                ? JSON5.parse( fileContent )
+                : JSON.parse( fileContent );
+        } catch ( jsonParseError ) {
+            throw new Error( `An error occured while parsing the file "${ filePath }" as ${ fileType === '.json5' ? 'JSON5' : 'JSON' }. [${ ( <Error> jsonParseError ).message }]` );
+        }
+
         return fileContentParsed;
+
     }
 
     /**
@@ -154,8 +183,19 @@ export class JSONBundler {
      * @param content  - File content
      */
     private writeFile( filePath: string, content: any ): void {
+
+        // Prepare content
         const preparedContent: string = `${ JSON.stringify( content, null, '    ' ) }\n`;
-        fsExtra.outputFileSync( filePath, preparedContent, 'utf-8' );
+
+        // Try to write the file
+        try {
+            fsExtra.outputFileSync( filePath, preparedContent, 'utf-8' );
+        } catch ( writeFileError ) {
+            throw new Error( [
+                `An error occured while reading the file "${ filePath }". [Code "${ writeFileError.code }", Number "${ writeFileError.errno }"]`
+            ].join( '\n' ) );
+        }
+
     }
 
 }
