@@ -74,7 +74,7 @@ export class JSONBundler {
         }
 
         // Get and references
-        const innerReferences: Array<JSONReference> = this.findReferences( this.files[ reference.path ], path.dirname( reference.path ) );
+        const innerReferences: Array<JSONReference> = this.findReferences( this.files[ reference.path ], reference.path );
         innerReferences.forEach( ( innerReference: JSONReference ): void => {
 
             // Resolve inner references first (deeply recursive)
@@ -91,10 +91,10 @@ export class JSONBundler {
      * Find references within an object, located at the given base path
      *
      * @param   value    - Current value in the object to find references in
-     * @param   basePath - Base path of the current file, used to resolve the reference path
+     * @param   filePath - Path of the current file, used to resolve the reference path
      * @returns          - List of references
      */
-    private findReferences( value: any, basePath: string ): Array<JSONReference> {
+    private findReferences( value: any, filePath: string ): Array<JSONReference> {
 
         const references: Array<JSONReference> = [];
 
@@ -109,7 +109,7 @@ export class JSONBundler {
 
                         // Save reference
                         references.push( {
-                            path: this.resolveReferencePath( value[ key ], basePath ), // Full path
+                            path: this.resolveReferencePath( value[ key ], filePath ), // Full path
                             location: value
                         } );
 
@@ -119,7 +119,7 @@ export class JSONBundler {
                     }
 
                     // Continue searching (deeply recursive)
-                    references.push( ...this.findReferences( value[ key ], basePath ) );
+                    references.push( ...this.findReferences( value[ key ], filePath ) );
 
                 } );
         }
@@ -131,11 +131,11 @@ export class JSONBundler {
     /**
      * Resolve reference path
      *
-     * @param referencePath
-     * @param basePath
-     * @returns
+     * @param   referencePath - Path to the reference
+     * @param   filePath      - Current file path
+     * @returns               - Actual (resolved) path to the reference
      */
-    private resolveReferencePath( referencePath: string, basePath: string ): string {
+    private resolveReferencePath( referencePath: string, filePath: string ): string {
 
         let resolvedReferencePath: string = referencePath;
 
@@ -148,7 +148,7 @@ export class JSONBundler {
         if ( referencePath[ 0 ] === '~' ) {
             resolvedReferencePath = path.resolve( this.rootPath, 'node_modules', referencePath.substring( 1 ) );
         } else {
-            resolvedReferencePath = path.resolve( basePath, resolvedReferencePath );
+            resolvedReferencePath = path.resolve( path.dirname( filePath ), resolvedReferencePath );
         }
 
         return resolvedReferencePath;
