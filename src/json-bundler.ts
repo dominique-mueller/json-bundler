@@ -30,7 +30,7 @@ export class JSONBundler {
      * @param inputPath  - Input path
      * @param outputPath - Output path
      */
-    public bundle( inputPath: string, outputPath: string ): void {
+    public bundle( inputPath: string, outputPath: string, minified: boolean = false ): void {
 
         // Resolve paths
         const fullInputPath: string = path.resolve( inputPath );
@@ -43,7 +43,7 @@ export class JSONBundler {
         } );
 
         // Write bundle
-        this.writeFile( fullOutputPath, this.files[ fullInputPath ] );
+        this.writeFile( fullOutputPath, this.files[ fullInputPath ], minified );
 
         // Cleanup
         this.files = {};
@@ -182,10 +182,10 @@ export class JSONBundler {
      * @param filePath - Path (already resolved)
      * @param content  - File content
      */
-    private writeFile( filePath: string, content: any ): void {
+    private writeFile( filePath: string, content: any, minified: boolean ): void {
 
         // Prepare content
-        const preparedContent: string = `${ JSON.stringify( content, null, '    ' ) }\n`;
+        const preparedContent: string = `${ JSON.stringify( content, null, minified ? '' : '    ' ) }\n`
 
         // Try to write the file
         try {
