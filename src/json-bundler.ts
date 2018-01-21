@@ -99,12 +99,22 @@ export class JSONBundler {
 
                     // Save reference
                     if ( key.toLowerCase().trim() === this.referenceSymbol ) {
+
+                        // Append file extension if not present
+                        const fullPath: string = path.extname( value[ key ] ) === ''
+                            ? `${ value[ key ] }.json`
+                            : value[ key ];
+
+                        // Save reference
                         references.push( {
-                            // TODO: Resolve path correctly (missing json ending, node_modules, hash sign)
-                            path: path.resolve( basePath, value[ key ] ), // Full path
+                            // TODO: Resolve path correctly (node_modules, hash sign)
+                            path: path.resolve( basePath, fullPath ), // Full path
                             location: value
                         } );
-                        delete value[ key ]; // Delete reference itself
+
+                        // Delete reference itself
+                        delete value[ key ];
+
                     }
 
                     // Continue searching (deeply recursive)
