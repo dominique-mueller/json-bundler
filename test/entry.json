@@ -12,8 +12,16 @@
     },
     "FOOTER": {
         "CONTENT": {
+            "$ref": "./pages/shared/footer.json",
             "YEAR": "2018",
-            "$ref": "./pages/shared/footer.json"
+            "LINKS": [
+                "IMPRINT",
+                "COPYRIGHT"
+            ]
         }
+    },
+    "TEST": {
+        "$ref": "~json-bundler-test/my-file.json",
+        "A": "AHA"
     }
 }

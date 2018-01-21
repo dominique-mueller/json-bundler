@@ -19,7 +19,7 @@
 	"keywords": [],
 	"scripts": {},
 	"dependencies": {
-		"deepmerge": "2.0.x",
+		"assign-deep": "0.4.x",
 		"fs-extra": "5.0.x"
 	},
 	"devDependencies": {

@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import * as deepmerge from 'deepmerge';
+import * as assignDeep from 'assign-deep';
 import * as fsExtra from 'fs-extra';
 
 import { JSONReference } from './json-reference.interface';
@@ -17,16 +17,10 @@ export class JSONBundler {
     private files: { [ path: string ]: any };
 
     /**
-     * Reference symbol
-     */
-    private readonly referenceSymbol: string;
-
-    /**
      * Constructor
      */
     constructor() {
         this.files = {};
-        this.referenceSymbol = '$ref';
     }
 
     /**
@@ -72,11 +66,16 @@ export class JSONBundler {
         }
 
         // Get and references
-        this.findReferences( this.files[ reference.path ], path.dirname( reference.path ) )
-            .forEach( ( reference: JSONReference ): void => {
-                this.resolveReference( reference ); // Recursion
-                deepmerge( reference.location, this.files[ reference.path ] );
-            } );
+        const innerReferences: Array<JSONReference> = this.findReferences( this.files[ reference.path ], reference.path );
+        innerReferences.forEach( ( innerReference: JSONReference ): void => {
+
+            // Resolve inner references first (deeply recursive)
+            this.resolveReference( innerReference );
+
+            // Merge reference content into the reference location - while always prefering the 'higher reference' content
+            assignDeep( innerReference.location, this.files[ innerReference.path ], assignDeep( {}, innerReference.location ) );
+
+        } );
 
     }
 
@@ -84,31 +83,25 @@ export class JSONBundler {
      * Find references within an object, located at the given base path
      *
      * @param   value    - Current value in the object to find references in
-     * @param   basePath - Base path of the current file, used to resolve the reference path
+     * @param   filePath - Path of the current file, used to resolve the reference path
      * @returns          - List of references
      */
-    private findReferences( value: any, basePath: string ): Array<JSONReference> {
+    private findReferences( value: any, filePath: string ): Array<JSONReference> {
 
         const references: Array<JSONReference> = [];
 
-        // Handle objects (and thus arrays as well)
+        // Handle objects (this includes arrays)
         if ( value instanceof Object ) {
             Object
-                .keys( value )
+                .keys( value ) // Works for arrays as well
                 .forEach( ( key: string ): void => {
 
-                    // Save reference
-                    if ( key.toLowerCase().trim() === this.referenceSymbol ) {
-
-                        // Append file extension if not present
-                        const fullPath: string = path.extname( value[ key ] ) === ''
-                            ? `${ value[ key ] }.json`
-                            : value[ key ];
+                    // Check if reference
+                    if ( key.toLowerCase().trim() === '$ref' ) {
 
                         // Save reference
                         references.push( {
-                            // TODO: Resolve path correctly (node_modules, hash sign)
-                            path: path.resolve( basePath, fullPath ), // Full path
+                            path: this.resolveReferencePath( value[ key ], filePath ), // Full path
                             location: value
                         } );
 
@@ -118,12 +111,39 @@ export class JSONBundler {
                     }
 
                     // Continue searching (deeply recursive)
-                    references.push( ...this.findReferences( value[ key ], basePath ) );
+                    references.push( ...this.findReferences( value[ key ], filePath ) );
 
                 } );
         }
 
         return references;
+
+    }
+
+    /**
+     * Resolve reference path
+     *
+     * @param   referencePath - Path to the reference
+     * @param   filePath      - Current file path
+     * @returns               - Actual (resolved) path to the reference
+     */
+    private resolveReferencePath( referencePath: string, filePath: string ): string {
+
+        let resolvedReferencePath: string = referencePath;
+
+        // Add file extension if missing
+        if ( path.extname( resolvedReferencePath ) === '' ) {
+            resolvedReferencePath = `${ resolvedReferencePath }.json`;
+        }
+
+        // Resolve path
+        if ( referencePath[ 0 ] === '~' ) {
+            resolvedReferencePath = path.resolve( process.cwd(), 'node_modules', referencePath.substring( 1 ) );
+        } else {
+            resolvedReferencePath = path.resolve( path.dirname( filePath ), resolvedReferencePath );
+        }
+
+        return resolvedReferencePath;
 
     }
 
