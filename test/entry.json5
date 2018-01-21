@@ -10,6 +10,8 @@
             "IMPRINT"
         ]
     },
+
+    // Footer
     "FOOTER": {
         "CONTENT": {
             "$ref": "./pages/shared/footer.json",

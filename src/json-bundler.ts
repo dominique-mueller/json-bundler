@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
+import * as JSON5 from 'json5';
 import * as assignDeep from 'assign-deep';
 import * as fsExtra from 'fs-extra';
 
@@ -128,23 +129,9 @@ export class JSONBundler {
      * @returns               - Actual (resolved) path to the reference
      */
     private resolveReferencePath( referencePath: string, filePath: string ): string {
-
-        let resolvedReferencePath: string = referencePath;
-
-        // Add file extension if missing
-        if ( path.extname( resolvedReferencePath ) === '' ) {
-            resolvedReferencePath = `${ resolvedReferencePath }.json`;
-        }
-
-        // Resolve path
-        if ( referencePath[ 0 ] === '~' ) {
-            resolvedReferencePath = path.resolve( process.cwd(), 'node_modules', referencePath.substring( 1 ) );
-        } else {
-            resolvedReferencePath = path.resolve( path.dirname( filePath ), resolvedReferencePath );
-        }
-
-        return resolvedReferencePath;
-
+        return referencePath[ 0 ] === '~'
+            ? path.resolve( process.cwd(), 'node_modules', referencePath.substring( 1 ) )
+            : path.resolve( path.dirname( filePath ), referencePath );
     }
 
     /**
@@ -154,7 +141,9 @@ export class JSONBundler {
      */
     private readFile( filePath: string ): any {
         const fileContent: string = fs.readFileSync( filePath, 'utf-8' );
-        const fileContentParsed: any = JSON.parse( fileContent );
+        const fileContentParsed: any = path.extname( filePath ) === '.json5'
+            ? JSON5.parse( fileContent )
+            : JSON.parse( fileContent );
         return fileContentParsed;
     }
 
