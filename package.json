@@ -18,7 +18,11 @@
 	},
 	"keywords": [],
 	"scripts": {
+		"build": "tsc -p tsconfig.json",
+		"clean": "rimraf -r dist/*",
 		"pretest": "copyfiles \"./test/node-module-references/src/json-bundler-test/**\" \"./node_modules\" --up 3",
+		"release": "automatic-release && copyfiles \"docs/**\" package.json CHANGELOG.md LICENSE README.md dist",
+		"test:coverage": "codecov -f coverage/coverage-final.json",
 		"test": "jest --config jest.config.json --runInBand --no-cache"
 	},
 	"dependencies": {
@@ -29,8 +33,11 @@
 	"devDependencies": {
 		"@types/jest": "22.0.x",
 		"@types/node": "9.3.x",
+		"automatic-release": "1.1.x",
+		"codecov": "3.0.x",
 		"copyfiles": "1.2.x",
 		"jest": "22.1.x",
+		"rimraf": "2.6.x",
 		"ts-jest": "22.0.x",
 		"typescript": "2.6.x"
 	}

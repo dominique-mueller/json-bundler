@@ -198,17 +198,17 @@ describe( 'JSON bundler', () => {
 
         } );
 
-        it( 'should throw an error if TODO', () => {
+        it( 'should throw an error if writing the bundle fails', () => {
 
             let error: any = null;
             try {
-                new JSONBundler().bundle( './test/no-references/src/input.json', './test/no-references/dist/"output.json' ); // Invalid file name
+                new JSONBundler().bundle( './test/no-references/src/input.json', null ); // Invalid file name
             } catch ( jsonBundlerError ) {
                 error = jsonBundlerError;
             }
 
             expect( error ).not.toBeNull();
-            expect( error.message ).toContain( `An error occured while writing the file "${ path.resolve( './test/no-references/dist/"output.json' ) }".` );
+            expect( error.message ).toBe( 'Path must be a string. Received null' );
 
         } );
 
