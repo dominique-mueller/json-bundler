@@ -45,5 +45,6 @@ try {
 	new JSONBundler().bundle( cliParameters.entryFile, cliParameters.outFile, cliParameters.minified );
 	process.exit( 0 );
 } catch ( error ) {
+	console.error( error );
 	process.exit( 1 );
 }
