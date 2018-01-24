@@ -32,6 +32,7 @@
 	},
 	"dependencies": {
 		"assign-deep": "0.4.x",
+		"chokidar": "2.0.x",
 		"fs-extra": "5.0.x",
 		"json5": "0.5.x",
 		"yargs": "11.0.x"
