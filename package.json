@@ -17,8 +17,13 @@
 		"url": "https://github.com/dominique-mueller/json-bundler/issues"
 	},
 	"keywords": [],
+	"main": "index.js",
+	"types": "index.d.ts",
+	"bin": {
+		"json-bundler": "bin/json-bundler.js"
+	},
 	"scripts": {
-		"build": "tsc -p tsconfig.json",
+		"build": "tsc -p tsconfig.json && copyfiles \"bin/**\" dist",
 		"clean": "rimraf -r dist/*",
 		"pretest": "copyfiles \"./test/node-module-references/src/json-bundler-test/**\" \"./node_modules\" --up 3",
 		"release": "automatic-release && copyfiles \"docs/**\" package.json CHANGELOG.md LICENSE README.md dist",
@@ -28,7 +33,8 @@
 	"dependencies": {
 		"assign-deep": "0.4.x",
 		"fs-extra": "5.0.x",
-		"json5": "0.5.x"
+		"json5": "0.5.x",
+		"yargs": "11.0.x"
 	},
 	"devDependencies": {
 		"@types/jest": "22.1.x",
