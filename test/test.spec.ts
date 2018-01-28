@@ -224,13 +224,13 @@ describe( 'JSON bundler', () => {
 
             let error: any = null;
             try {
-                new JSONBundler().bundle( './test/no-references/src/input.json', 'X:/test/result.json' ); // Path does not exist (duh!)
+                new JSONBundler().bundle( './test/no-references/src/input.json', '' ); // Empty path
             } catch ( jsonBundlerError ) {
                 error = jsonBundlerError;
             }
 
             expect( error ).not.toBeNull();
-            expect( error.message ).toContain( `An error occured while writing the file "${ path.resolve( 'X:/test/result.json' ) }".` );
+            expect( error.message ).toContain( `An error occured while writing the file "${ process.cwd() }".` );
 
         } );
 
