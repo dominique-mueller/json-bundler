@@ -9,6 +9,8 @@ groups:
       enabled: true
     reset_on_reopened:
       enabled: true
+    author_approval:
+      auto: true
     users:
     - dominique-mueller
 
