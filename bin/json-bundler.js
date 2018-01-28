@@ -4,10 +4,14 @@
 
 const path = require( 'path' );
 
-const yargs = require( 'yargs' );
+const chalk = require( 'chalk' );
 const chokidar = require( 'chokidar' );
+const log = require( 'log-update' );
+const yargs = require( 'yargs' );
 
 const JSONBundler = require( '../index.js' ).JSONBundler;
+
+const arrowSymbol = process.platform === 'win32' ? '→' : '➜';
 
 /**
  * List of available CLI parameters:
@@ -59,35 +63,42 @@ try {
 	// Run in watch mode
 	if ( cliParameters.watch ) {
 
+		console.log( '' );
+		console.log( chalk.white.bold.underline( 'JSON Bundler' ) );
+		console.log( '' );
+
 		// Initial run
-		console.log( 'Bundling ...' );
+		console.log( `  ${ arrowSymbol } Create bundle`, chalk.gray( `(${ cliParameters.entryFile })` ) );
 		const jsonBundler = new JSONBundler();
 		jsonBundler.bundle( cliParameters.entryFile, cliParameters.outFile );
-		console.log( 'Done.' );
+		console.log( `  ${ arrowSymbol } Write bundle`, chalk.gray( `(${ cliParameters.outFile })` ) );
 
 		// Watch files
+		console.log( `  ${ arrowSymbol } Watching for changes ...` );
 		let watchedFiles = jsonBundler.paths;
-		const watcher = chokidar.watch( watchedFiles );
-		console.log( `Watching ${ watchedFiles.length } files now, waiting for changes.` );
+		const watcher = chokidar.watch( watchedFiles, {
+			awaitWriteFinish: {
+				stabilityThreshold: 250 // Prevent reading the file too early
+			}
+		} );
 
 		// Handle file changes
 		watcher.on( 'change', ( changedPath ) => {
 
-			console.log( `-> File "${ path.basename( changedPath ) }" has changed. Bundling ...` );
+			log( `   > File "${ path.basename( changedPath ) }" changed, bundling ...` );
 			jsonBundler.bundle( cliParameters.entryFile, cliParameters.outFile );
+			log( `   > File "${ path.basename( changedPath ) }" changed, bundling ...`, 'done!' );
+			log.done();
 			const newPaths = jsonBundler.paths;
-			console.log( 'Done.' )
 
 			const added = newPaths.filter( currentPath => !watchedFiles.includes( currentPath ) );
 			if ( added.length > 0 ) {
 				watcher.add( added );
-				console.log( `   Added ${ added.length } files to the watcher.` )
 			}
 
 			const removed = watchedFiles.filter( currentPath => !newPaths.includes( currentPath ) );
 			if ( removed.length > 0 ) {
 				watcher.unwatch( removed );
-				console.log( `   Removed ${ removed.length } files from the watcher.` )
 			}
 
 			watchedFiles = newPaths;
@@ -97,10 +108,24 @@ try {
 	// Run once
 	} else {
 
-		console.log( 'Bundling ...' );
+		const startTime = new Date().getTime();
+
+		console.log( '' );
+		console.log( chalk.white.bold.underline( 'JSON Bundler' ) );
+		console.log( '' );
+
+		console.log( `  ${ arrowSymbol } Create bundle`, chalk.gray( `(${ cliParameters.entryFile })` ) );
 		new JSONBundler().bundle( cliParameters.entryFile, cliParameters.outFile, cliParameters.minified );
+		console.log( `  ${ arrowSymbol } Write bundle`, chalk.gray( `(${ cliParameters.outFile })` ) );
+
+		const finishTime = new Date().getTime();
+		const processTime = ( ( finishTime - startTime ) / 1000 ).toFixed( 2 );
+
+		console.log( '' );
+		console.log( chalk.green.bold( `Success! [${ processTime } seconds]` ) );
+		console.log( '' );
+
 		process.exit( 0 );
-		console.log( 'Done.' );
 
 	}
 
