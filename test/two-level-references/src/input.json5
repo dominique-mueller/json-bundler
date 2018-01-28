@@ -3,6 +3,6 @@
     "NAME": "MY NAME",
     "DESCRIPTION": "MY DESCRIPTION",
     "FOOTER": {
-        "$ref": "./shared/footer.json"
+        "$ref": "./shared/footer.json5"
     }
 }

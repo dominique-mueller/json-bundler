@@ -2,7 +2,7 @@
     // TODO: Change name?
     "CEO": "John Doe",
     "COPYRIGHT": {
-        "$ref": "./copyright.json",
+        "$ref": "./copyright.json5",
         "YEAR": "1994"
     }
 }
