@@ -3,6 +3,6 @@
     "NAME": "MY NAME",
     "DESCRIPTION": "MY DESCRIPTION",
     "COPYRIGHT": {
-        "$ref": "~json-bundler-test/copyright.json"
+        "$ref": "~json-bundler-test/copyright.json5"
     }
 }
