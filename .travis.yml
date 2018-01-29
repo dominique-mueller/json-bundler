@@ -13,7 +13,6 @@ branches:
   only:
     - master
     - develop
-    - /^greenkeeper/.*$/
 
 # Build stages
 stages:
