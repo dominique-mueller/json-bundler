@@ -58,6 +58,10 @@ The following parameters are available:
 
 > You can always run `json-bundler --help` to get a full list of available command line parameters.
 
+<br><br>
+
+### Example
+
 For example, **json-bundler** commands might look like the following:
 
 ``` json
