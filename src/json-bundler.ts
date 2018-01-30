@@ -13,7 +13,14 @@ import { JSONReference } from './json-reference.interface';
 export class JSONBundler {
 
     /**
-     * Files, changed while bundling happens
+     * Paths
+     */
+    public get paths(): Array<string> {
+        return Object.keys( this.files );
+    }
+
+    /**
+     * Files with content, mutated while recursive bundling is happening
      */
     private files: { [ path: string ]: any };
 
@@ -32,6 +39,9 @@ export class JSONBundler {
      */
     public bundle( inputPath: string, outputPath: string, minified: boolean = false ): void {
 
+        // Reset
+        this.files = {};
+
         // Resolve paths
         const fullInputPath: string = path.resolve( inputPath );
         const fullOutputPath: string = path.resolve( outputPath );
@@ -44,9 +54,6 @@ export class JSONBundler {
 
         // Write bundle
         this.writeFile( fullOutputPath, this.files[ fullInputPath ], minified );
-
-        // Cleanup
-        this.files = {};
 
     }
 

@@ -40,13 +40,16 @@
 	},
 	"dependencies": {
 		"assign-deep": "0.4.x",
+		"chalk": "2.3.x",
+		"chokidar": "2.0.x",
 		"fs-extra": "5.0.x",
 		"json5": "0.5.x",
+		"log-update": "2.3.x",
 		"yargs": "11.0.x"
 	},
 	"devDependencies": {
 		"@types/jest": "22.1.x",
-		"@types/node": "9.3.x",
+		"@types/node": "9.4.x",
 		"automatic-release": "1.1.x",
 		"codecov": "3.0.x",
 		"copyfiles": "1.2.x",

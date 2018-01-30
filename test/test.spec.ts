@@ -19,119 +19,141 @@ describe( 'JSON bundler', () => {
     describe( '(no references)', () => {
 
         it( 'should bundle the JSON file', () => {
-            test( 'no-references', 'json', false );
+            test( 'no-references', 'json', false, [], [] );
         } );
 
         it( 'should bundle the JSON5 file', () => {
-            test( 'no-references', 'json5', false );
+            test( 'no-references', 'json5', false, [], [] );
         } );
 
         it( 'should bundle and minify the JSON file', () => {
-            test( 'no-references', 'json', true );
+            test( 'no-references', 'json', true, [], [] );
         } );
 
         it( 'should bundle and minify the JSON5 file', () => {
-            test( 'no-references', 'json5', true );
+            test( 'no-references', 'json5', true, [], [] );
         } );
 
     } );
 
     describe( '(one-level references)', () => {
 
+        const paths: Array<string> = [
+            './shared/copyright'
+        ];
+
         it( 'should bundle the JSON file', () => {
-            test( 'one-level-references', 'json', false );
+            test( 'one-level-references', 'json', false, paths, [] );
         } );
 
         it( 'should bundle the JSON5 file', () => {
-            test( 'one-level-references', 'json5', false );
+            test( 'one-level-references', 'json5', false, paths, [] );
         } );
 
         it( 'should bundle and minify the JSON file', () => {
-            test( 'one-level-references', 'json', true );
+            test( 'one-level-references', 'json', true, paths, [] );
         } );
 
         it( 'should bundle and minify the JSON5 file', () => {
-            test( 'one-level-references', 'json5', true );
+            test( 'one-level-references', 'json5', true, paths, [] );
         } );
 
     } );
 
     describe( '(one-level references and merging)', () => {
 
+        const paths: Array<string> = [
+            './shared/copyright'
+        ];
+
         it( 'should bundle the JSON file', () => {
-            test( 'one-level-merge-references', 'json', false );
+            test( 'one-level-merge-references', 'json', false, paths, [] );
         } );
 
         it( 'should bundle the JSON5 file', () => {
-            test( 'one-level-merge-references', 'json5', false );
+            test( 'one-level-merge-references', 'json5', false, paths, [] );
         } );
 
         it( 'should bundle and minify the JSON file', () => {
-            test( 'one-level-merge-references', 'json', true );
+            test( 'one-level-merge-references', 'json', true, paths, [] );
         } );
 
         it( 'should bundle and minify the JSON5 file', () => {
-            test( 'one-level-merge-references', 'json5', true );
+            test( 'one-level-merge-references', 'json5', true, paths, [] );
         } );
 
     } );
 
     describe( '(two-level references)', () => {
 
+        const paths: Array<string> = [
+            './shared/footer',
+            './shared/copyright'
+        ];
+
         it( 'should bundle the JSON file', () => {
-            test( 'two-level-references', 'json', false );
+            test( 'two-level-references', 'json', false, paths, [] );
         } );
 
         it( 'should bundle the JSON5 file', () => {
-            test( 'two-level-references', 'json5', false );
+            test( 'two-level-references', 'json5', false, paths, [] );
         } );
 
         it( 'should bundle and minify the JSON file', () => {
-            test( 'two-level-references', 'json', true );
+            test( 'two-level-references', 'json', true, paths, [] );
         } );
 
         it( 'should bundle and minify the JSON5 file', () => {
-            test( 'two-level-references', 'json5', true );
+            test( 'two-level-references', 'json5', true, paths, [] );
         } );
 
     } );
 
     describe( '(two-level references and merging)', () => {
 
+        const paths: Array<string> = [
+            './shared/footer',
+            './shared/copyright'
+        ];
+
         it( 'should bundle the JSON file', () => {
-            test( 'two-level-merge-references', 'json', false );
+            test( 'two-level-merge-references', 'json', false, paths, [] );
         } );
 
         it( 'should bundle the JSON5 file', () => {
-            test( 'two-level-merge-references', 'json5', false );
+            test( 'two-level-merge-references', 'json5', false, paths, [] );
         } );
 
         it( 'should bundle and minify the JSON file', () => {
-            test( 'two-level-merge-references', 'json', true );
+            test( 'two-level-merge-references', 'json', true, paths, [] );
         } );
 
         it( 'should bundle and minify the JSON5 file', () => {
-            test( 'two-level-merge-references', 'json5', true );
+            test( 'two-level-merge-references', 'json5', true, paths, [] );
         } );
 
     } );
 
     describe( '(node_modules references)', () => {
 
+        const externalPaths: Array<string> = [
+            './json-bundler-test/copyright'
+        ];
+
         it( 'should bundle the JSON file', () => {
-            test( 'node-module-references', 'json', false );
+            test( 'node-module-references', 'json', false, [], externalPaths );
         } );
 
         it( 'should bundle the JSON5 file', () => {
-            test( 'node-module-references', 'json5', false );
+            test( 'node-module-references', 'json5', false, [], externalPaths );
         } );
 
         it( 'should bundle and minify the JSON file', () => {
-            test( 'node-module-references', 'json', true );
+            test( 'node-module-references', 'json', true, [], externalPaths );
         } );
 
         it( 'should bundle and minify the JSON5 file', () => {
-            test( 'node-module-references', 'json5', true );
+            test( 'node-module-references', 'json5', true, [], externalPaths );
         } );
 
     } );
@@ -202,13 +224,13 @@ describe( 'JSON bundler', () => {
 
             let error: any = null;
             try {
-                new JSONBundler().bundle( './test/no-references/src/input.json', null ); // Invalid file name
+                new JSONBundler().bundle( './test/no-references/src/input.json', '' ); // Empty path
             } catch ( jsonBundlerError ) {
                 error = jsonBundlerError;
             }
 
             expect( error ).not.toBeNull();
-            expect( error.message ).toBe( 'Path must be a string. Received null' );
+            expect( error.message ).toContain( `An error occured while writing the file "${ process.cwd() }".` );
 
         } );
 
@@ -216,13 +238,24 @@ describe( 'JSON bundler', () => {
 
 } );
 
-function test( folderName: string, jsonType: 'json' | 'json5', minified: boolean ): void {
+function test( folderName: string, jsonType: 'json' | 'json5', minified: boolean, paths: Array<string>, externalPaths: Array<string> ): void {
 
-    new JSONBundler().bundle( `./test/${ folderName }/src/input.${ jsonType }`, `./test/${ folderName }/dist/output.json`, minified );
+    const jsonBundler: JSONBundler = new JSONBundler();
+    jsonBundler.bundle( `./test/${ folderName }/src/input.${ jsonType }`, `./test/${ folderName }/dist/output.json`, minified );
 
     const output: any = JSON.parse( fs.readFileSync( `./test/${ folderName }/dist/output.json`, 'utf-8' ) );
     const expectedOutput: any = JSON.parse( fs.readFileSync( `./test/${ folderName }/src/expected-output.json`, 'utf-8' ) );
 
+    const expectedPaths: Array<string> = [ 'input', ...paths ]
+        .map( ( filePath: string ): string => {
+            return path.resolve( 'test', folderName, 'src', `${ filePath }.${ jsonType }` );
+        } );
+    const expectedExternalPaths: Array<string> = externalPaths
+        .map( ( externalFilePath: string ): string => {
+            return path.resolve( process.cwd(), 'node_modules', `${ externalFilePath }.${ jsonType }` );
+        } );
+
     expect( output ).toEqual( expectedOutput );
+    expect( jsonBundler.paths.sort() ).toEqual( [ ...expectedPaths, ...expectedExternalPaths ].sort() ); // Ignore order
 
 }
