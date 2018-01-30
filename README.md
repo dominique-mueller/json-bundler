@@ -7,6 +7,7 @@
 [![npm version](https://img.shields.io/npm/v/json-bundler.svg?maxAge=3600&style=flat)](https://www.npmjs.com/package/json-bundler)
 [![dependency status](https://img.shields.io/david/dominique-mueller/json-bundler.svg?maxAge=3600&style=flat)](https://david-dm.org/dominique-mueller/json-bundler)
 [![travis ci build status](https://img.shields.io/travis/dominique-mueller/json-bundler/master.svg?maxAge=3600&style=flat)](https://travis-ci.org/dominique-mueller/json-bundler)
+[![Codecov](https://img.shields.io/codecov/c/github/dominique-mueller/json-bundler.svg?maxAge=3600&style=flat)](https://codecov.io/gh/dominique-mueller/json-bundler)
 [![Known Vulnerabilities](https://snyk.io/test/github/dominique-mueller/json-bundler/badge.svg)](https://snyk.io/test/github/dominique-mueller/json-bundler)
 [![license](https://img.shields.io/npm/l/json-bundler.svg?maxAge=3600&style=flat)](https://github.com/dominique-mueller/json-bundler/LICENSE)
 
