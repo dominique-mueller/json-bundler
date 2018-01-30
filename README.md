@@ -31,8 +31,6 @@ You can get the **json-bundler** via **npm** by either adding it as a new *devDe
 npm install json-bundler
 ```
 
-<br>
-
 ### Requirements
 
 - **json-bundler** requires **NodeJS 7.6** or higher to be installed
