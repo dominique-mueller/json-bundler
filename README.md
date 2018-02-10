@@ -19,7 +19,7 @@
 
 TODO: Description
 
-TODO: Image
+![JSON Bundler Preview](/docs/preview.png?raw=true)
 
 <br><br><br>
 
