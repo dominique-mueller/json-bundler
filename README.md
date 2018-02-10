@@ -22,8 +22,8 @@ of configuration. Especially in the former case, we usually end up with one huge
 long.
 
 Meet the **json-bundler**, a NodeJS-based command line tool, enabling you to place multiple JSON files in multiple places - and bundle them
-together intelligently. *This allows you, for instance, to place your i18n files directly next to your component implementations, or to
-reference JSON files published within a npm library.*
+together intelligently. For istance, this allows you to place your i18n files directly next to your component implementations, or to
+reference JSON files published within a npm library.
 
 ![JSON Bundler Preview](/docs/preview.png?raw=true)
 
@@ -49,10 +49,11 @@ npm install json-bundler
 Using the **json-bundler** is very straightforward. In general:
 
 - There must be one JSON file acting as the entry point (e.g. `index.json` or `en.json` file).
-- JSON files can be referenced (and thus included) using `$ref` as the key and the path to the JSON file as the value.
-- Reference paths are always relative to the JSON file they're being used within. One exception exists: Paths starting with the `~` symbol
-  start at the project's `node_modules` folder.
-- Referenced JSON files get merged in - not placed in - meaning that existing values will not be overwritten.
+- JSON files can be referenced (and thus included) using `$ref` as the key and the path to the JSON file as the value.  Reference paths are
+  always relative to the JSON file they're being used within. One exception exists: Paths starting with the `~` symbol start at the
+  project's `node_modules` folder.
+- Referenced JSON files get merged in (not just placed in). This means that no data gets removed, and existing values will not be
+  overwritten by referenced files.
 - Both `json` and `json5` files are supported, even when used in a mixed manner. *See __[JSON5](https://github.com/json5/json5)__ for
   further details*.
 
@@ -92,20 +93,24 @@ First file at `src/app/en.json` (entry file):
 {
   "title": "My application title",
   "login": {
-    "$ref": "./pages/login.json"
+    "$ref": "./pages/login.json5"
   },
   "home": {
     "title": "Welcome back, it's Christmas time!",
     "$ref": "./pages/home.json"
+  },
+  "footer": {
+    "$ref": "~my-library/i18n/footer.json"
   }
 }
 ```
 
-Second file at `src/app/pages/login.json` (referenced file):
+Second file at `src/app/pages/login.json5` (referenced file):
 
 ``` json
+// Login Page
 {
-  "title": "Login",
+  "title": "Login", // TODO: Rename to register?
   "form": {
     "user": "Please enter your username.",
     "password": "Please enter your password."
@@ -122,11 +127,21 @@ Third file at `src/app/pages/home.json` (referenced file):
 }
 ```
 
+Fourth file at `node_modules(my-library/i18n/footer.json` (referenced file):
+
+``` json
+{
+  "copyright": "My company",
+  "legal": "My super-duper important legal information. Plus imprint, of course."
+}
+```
+
 **Notice that:**
 
 - One JSON file can reference multiple other JSON files
 - The place of the reference within the JSON structure will define where the referenced file gets merged in
 - The paths are relative to the file they are defined within
+- The `~` symbol can be used to access libraries (as a shortcut)
 - The paths include the file ending (either `.json` or `.json5`)
 
 <br>
@@ -163,6 +178,10 @@ The result is a JSON file at `dist/en.json`, and it contains the following:
   "home": {
     "title": "Welcome back, it's Christmas time!",
     "description": "Lorem ipsum dolor sit amet."
+  },
+  "footer": {
+    "copyright": "My company",
+    "legal": "My super-duper important legal information. Plus imprint, of course."
   }
 }
 ```
@@ -170,6 +189,7 @@ The result is a JSON file at `dist/en.json`, and it contains the following:
 **Notice that:**
 
 - Referenced files get merged in at the place they got referenced
+- Files are included, no matter if they are `json` or `json5`, no matter if they exist within the project or come from a library
 - The `home/title` has the value of the `src/app/en.json` file, and not the value defined in `src/app/pages/home.json` - the
   "parent" (aka the referencee) always has higher priority than the referenced file during merge
 
