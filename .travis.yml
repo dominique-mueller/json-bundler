@@ -16,6 +16,7 @@ branches:
 
 # Build stages
 stages:
+  - name: log
   - name: build
   - name: test
   - name: release
@@ -30,7 +31,7 @@ jobs:
         - npm install
       script:
         - npm run build
-        - node .\dist\bin\json-bundler --entryFile "test/two-level-merge-references/src/input.json" --outFile "dist/output.json"
+        - node ./dist/bin/json-bundler --entryFile "test/two-level-merge-references/src/input.json" --outFile "dist/output.json"
 
     - stage: build
       install:
