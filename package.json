@@ -1,6 +1,6 @@
 {
 	"name": "json-bundler",
-	"description": "Bundles your JSON files intelligently.",
+	"description": "Bundles your JSON & JSON5 files intelligently.",
 	"version": "1.0.0",
 	"author": {
 		"name": "Dominique Müller",
