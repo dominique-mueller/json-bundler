@@ -48,6 +48,6 @@
 		"jest": "22.2.x",
 		"rimraf": "2.6.x",
 		"ts-jest": "22.0.x",
-		"typescript": "2.6.x"
+		"typescript": "2.7.x"
 	}
 }
