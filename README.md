@@ -107,7 +107,7 @@ First file at `src/app/en.json` (entry file):
 
 Second file at `src/app/pages/login.json5` (referenced file):
 
-``` json
+``` json5
 // Login Page
 {
   "title": "Login", // TODO: Rename to register?
