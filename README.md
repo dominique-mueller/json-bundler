@@ -22,8 +22,10 @@ of configuration. Especially in the former case, we usually end up with one huge
 long.
 
 Meet the **json-bundler**, a NodeJS-based command line tool, enabling you to place multiple JSON files in multiple places - and bundle them
-together intelligently. For istance, this allows you to place your i18n files directly next to your component implementations, or to
-reference JSON files published within a npm library.
+together intelligently.
+
+> For example, the **json-bundler** allows you to place your i18n files directly next to your component implementations (e.g. next to
+> Angular components), or to reference JSON files published within a npm library.
 
 ![JSON Bundler Preview](/docs/preview.png?raw=true)
 
@@ -127,7 +129,7 @@ Third file at `src/app/pages/home.json` (referenced file):
 }
 ```
 
-Fourth file at `node_modules(my-library/i18n/footer.json` (referenced file):
+Fourth file at `node_modules/my-library/i18n/footer.json` (referenced file):
 
 ``` json
 {
