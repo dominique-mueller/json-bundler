@@ -22,7 +22,8 @@ of configuration. Especially in the former case, we usually end up with one huge
 long.
 
 Meet the **json-bundler**, a NodeJS-based command line tool, enabling you to place multiple JSON files in multiple places - and bundle them
-together intelligently.
+together intelligently. *This allows you, for instance, to place your i18n files directly next to your component implementations, or to
+reference JSON files published within a npm library.*
 
 ![JSON Bundler Preview](/docs/preview.png?raw=true)
 
@@ -48,8 +49,9 @@ npm install json-bundler
 Using the **json-bundler** is very straightforward. In general:
 
 - There must be one JSON file acting as the entry point (e.g. `index.json` or `en.json` file).
-- JSON files can be referenced (included) using the `$ref` key, and the path to the JSON file to be included as the value. Note that the
-  path must be relative to the JSON file it is being referenced within.
+- JSON files can be referenced (and thus included) using `$ref` as the key and the path to the JSON file as the value.
+- Reference paths are always relative to the JSON file they're being used within. One exception exists: Paths starting with the `~` symbol
+  start at the project's `node_modules` folder.
 - Referenced JSON files get merged in - not placed in - meaning that existing values will not be overwritten.
 - Both `json` and `json5` files are supported, even when used in a mixed manner. *See __[JSON5](https://github.com/json5/json5)__ for
   further details*.
@@ -120,7 +122,7 @@ Third file at `src/app/pages/home.json` (referenced file):
 }
 ```
 
-Notice that:
+**Notice that:**
 
 - One JSON file can reference multiple other JSON files
 - The place of the reference within the JSON structure will define where the referenced file gets merged in
@@ -137,7 +139,7 @@ We use the following command to create the bundle:
 json-bundler --entryFile src/app/en.json --outFile dist/en.json
 ```
 
-Notice that:
+**Notice that:**
 
 - We use the entry file from above
 - We only define the required parameters here (`entryFile` and `outFile`)
@@ -165,7 +167,7 @@ The result is a JSON file at `dist/en.json`, and it contains the following:
 }
 ```
 
-Notice that:
+**Notice that:**
 
 - Referenced files get merged in at the place they got referenced
 - The `home/title` has the value of the `src/app/en.json` file, and not the value defined in `src/app/pages/home.json` - the
