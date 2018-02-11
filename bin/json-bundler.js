@@ -60,21 +60,46 @@ const cliParameters = yargs
 // Run
 try {
 
+	console.log( '' );
+	console.log( chalk.white.bold.underline( 'JSON Bundler' ) );
+	console.log( '' );
+
+	const startTime = new Date().getTime();
+
+	console.log( chalk.white.bold( '  Entry File' ) );
+	console.log( chalk.gray( `    ${ arrowSymbol } ${ cliParameters.entryFile.replace( /\\/g, '/' ) }` ) );
+	console.log( '' );
+	const jsonBundler = new JSONBundler();
+	jsonBundler.bundle( cliParameters.entryFile, cliParameters.outFile, cliParameters.minified );
+
+	const relativePaths = jsonBundler.paths.map( ( jsonPath ) => {
+		return path.relative( process.cwd(), jsonPath ).replace( /\\/g, '/' );
+	} );
+	relativePaths.shift(); // Ignore entry file
+
+	console.log( chalk.white.bold( '  Referenced files' ) );
+	relativePaths.forEach( ( jsonPath ) => {
+		console.log( chalk.gray( `    ${ arrowSymbol } ${ jsonPath }` ) );
+	} );
+	console.log( '' );
+
+	console.log( chalk.white.bold( '  Output File' ) );
+	console.log( chalk.gray( `    ${ arrowSymbol } ${ cliParameters.outFile.replace( /\\/g, '/' ) }` ) );
+
+	const finishTime = new Date().getTime();
+	const processTime = ( ( finishTime - startTime ) / 1000 ).toFixed( 2 );
+
+	console.log( '' );
+	console.log( chalk.green.bold( `Success! [${ processTime } seconds]` ) );
+	console.log( '' );
+
 	// Run in watch mode
 	if ( cliParameters.watch ) {
 
-		console.log( '' );
-		console.log( chalk.white.bold.underline( 'JSON Bundler' ) );
-		console.log( '' );
-
-		// Initial run
-		console.log( `  ${ arrowSymbol } Create bundle`, chalk.gray( `(${ cliParameters.entryFile })` ) );
-		const jsonBundler = new JSONBundler();
-		jsonBundler.bundle( cliParameters.entryFile, cliParameters.outFile );
-		console.log( `  ${ arrowSymbol } Write bundle`, chalk.gray( `(${ cliParameters.outFile })` ) );
-
 		// Watch files
-		console.log( `  ${ arrowSymbol } Watching for changes ...` );
+		console.log( '' );
+		console.log( chalk.white.bold.underline( 'JSON Bundler (WATCH MODE)' ) );
+		console.log( '' );
 		let watchedFiles = jsonBundler.paths;
 		const watcher = chokidar.watch( watchedFiles, {
 			awaitWriteFinish: {
@@ -85,9 +110,9 @@ try {
 		// Handle file changes
 		watcher.on( 'change', ( changedPath ) => {
 
-			log( `   > File "${ path.basename( changedPath ) }" changed, bundling ...` );
+			log( ` > File "${ path.basename( changedPath ) }" changed, bundling ...` );
 			jsonBundler.bundle( cliParameters.entryFile, cliParameters.outFile );
-			log( `   > File "${ path.basename( changedPath ) }" changed, bundling ...`, 'done!' );
+			log( ` > File "${ path.basename( changedPath ) }" changed, bundling ...`, 'done!' );
 			log.done();
 			const newPaths = jsonBundler.paths;
 
@@ -104,28 +129,6 @@ try {
 			watchedFiles = newPaths;
 
 		} );
-
-	// Run once
-	} else {
-
-		const startTime = new Date().getTime();
-
-		console.log( '' );
-		console.log( chalk.white.bold.underline( 'JSON Bundler' ) );
-		console.log( '' );
-
-		console.log( `  ${ arrowSymbol } Create bundle`, chalk.gray( `(${ cliParameters.entryFile })` ) );
-		new JSONBundler().bundle( cliParameters.entryFile, cliParameters.outFile, cliParameters.minified );
-		console.log( `  ${ arrowSymbol } Write bundle`, chalk.gray( `(${ cliParameters.outFile })` ) );
-
-		const finishTime = new Date().getTime();
-		const processTime = ( ( finishTime - startTime ) / 1000 ).toFixed( 2 );
-
-		console.log( '' );
-		console.log( chalk.green.bold( `Success! [${ processTime } seconds]` ) );
-		console.log( '' );
-
-		process.exit( 0 );
 
 	}
 
