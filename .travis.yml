@@ -25,6 +25,13 @@ stages:
 jobs:
   include:
 
+    - stage: log
+      install:
+        - npm install
+      script:
+        - npm run build
+        - node ./dist/bin/json-bundler --entryFile "test/two-level-merge-references/src/input.json" --outFile "dist/output.json"
+
     - stage: build
       install:
         - npm install
