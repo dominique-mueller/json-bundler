@@ -1,6 +1,6 @@
 {
 	"name": "json-bundler",
-	"description": "TODO",
+	"description": "Bundles your JSON & JSON5 files intelligently.",
 	"version": "1.0.0",
 	"author": {
 		"name": "Dominique Müller",
@@ -16,7 +16,15 @@
 	"bugs": {
 		"url": "https://github.com/dominique-mueller/json-bundler/issues"
 	},
-	"keywords": [],
+	"keywords": [
+		"json",
+		"json5",
+		"bundle",
+		"merge",
+		"combine",
+		"18n",
+		"angular"
+	],
 	"main": "index.js",
 	"types": "index.d.ts",
 	"bin": {
