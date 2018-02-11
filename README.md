@@ -51,15 +51,18 @@ npm install json-bundler
 
 Using the **json-bundler** is very straightforward. In general:
 
-- There must be one JSON file acting as the entry point (e.g. `index.json` or `en.json` file).
-- JSON files are referenced (and thus included) using the `$ref` key, and the path to the JSON file as the value. Paths are always relative
-  to the JSON file they're being used within.
-- Paths starting with `~` are pointing to the project's `node_modules` folder; this simplifies referencing JSON files from within npm
-  libraries.
-- Referenced JSON files get merged in (instead of just placed in) at the exact position they're being referenced. Existing values will not
-  be overwritten by referenced files (the "referencee" has always higher priority).
-- Both `json` and `json5` files are supported, even in a mixed manner. *See __[JSON5](https://github.com/json5/json5)__ for further
-  details*.
+- **Entry Point**<br>
+  There must be exactly one JSON file acting as the singular entry point (e.g. `index.json` or `en.json`).
+- **References**<br>
+  JSON files are referenced (and thus included) using the `$ref` key, and the path to the JSON file as the value. Reference
+  paths are always relative to the JSON file they're being defined within. Paths starting with `~` are pointing to the project's
+  `node_modules` folder (for easy npm library access).
+- **Bundling**<br>
+  When bundling, referenced JSON files get merged in (instead of just placed in), at the exact position in the JSNO files at
+  which they're being referenced. Existing values will not be overwritten by referenced files (the "referencee" has always higher priority).
+
+Also: Both `json` and `json5` files are supported, even in a mixed manner. That means you can do linebreaks, use comments, and much more.
+See **[JSON5](https://github.com/json5/json5)** for further details.
 
 <br><br><br>
 
