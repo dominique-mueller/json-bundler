@@ -48,7 +48,7 @@
 		"yargs": "11.0.x"
 	},
 	"devDependencies": {
-		"@types/jest": "22.1.x",
+		"@types/jest": "22.2.x",
 		"@types/node": "9.4.x",
 		"automatic-release": "1.1.x",
 		"codecov": "3.0.x",
