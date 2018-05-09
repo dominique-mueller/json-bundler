@@ -49,7 +49,7 @@
 	},
 	"devDependencies": {
 		"@types/jest": "22.2.x",
-		"@types/node": "9.6.x",
+		"@types/node": "10.0.x",
 		"automatic-release": "1.1.x",
 		"codecov": "3.0.x",
 		"copyfiles": "2.0.x",
