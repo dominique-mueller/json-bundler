@@ -39,7 +39,7 @@
 		"test": "jest --config jest.config.json --runInBand --no-cache"
 	},
 	"dependencies": {
-		"assign-deep": "0.4.x",
+		"assign-deep": "1.0.0",
 		"chalk": "2.4.x",
 		"chokidar": "2.0.x",
 		"fs-extra": "7.0.x",
