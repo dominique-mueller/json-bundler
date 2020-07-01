@@ -40,7 +40,7 @@
 	},
 	"dependencies": {
 		"assign-deep": "0.4.x",
-		"chalk": "2.4.x",
+		"chalk": "4.1.x",
 		"chokidar": "2.0.x",
 		"fs-extra": "7.0.x",
 		"json5": "2.0.x",
