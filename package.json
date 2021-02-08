@@ -13,8 +13,7 @@
     "bundle",
     "merge",
     "combine",
-    "18n",
-    "angular"
+    "i18n"
   ],
   "main": "index.js",
   "types": "index.d.ts",
