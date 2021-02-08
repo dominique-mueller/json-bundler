@@ -24,7 +24,7 @@
     "build": "rimraf -r dist && tsc -p tsconfig.json && copyfiles \"bin/**\" dist && copyfiles \"docs/**\" package.json CHANGELOG.md LICENSE README.md dist",
     "lint": "eslint src/**/*.ts --max-warnings 0",
     "lint:fix": "eslint src/**/*.ts --max-warnings 0 --fix",
-    "test:coverage": "codecov -f coverage/coverage-final.json",
+    "test:upload-coverage": "codecov -f coverage/coverage-final.json",
     "test": "copyfiles \"./test/node-module-references/src/json-bundler-test/**\" \"./node_modules\" --up 3 && jest --config jest.config.json --runInBand --no-cache"
   },
   "dependencies": {
