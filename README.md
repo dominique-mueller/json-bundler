@@ -4,13 +4,6 @@
 
 **Bundles your JSON files intelligently.**
 
-[![npm version](https://img.shields.io/npm/v/json-bundler.svg?maxAge=3600&style=flat)](https://www.npmjs.com/package/json-bundler)
-[![dependency status](https://img.shields.io/david/dominique-mueller/json-bundler.svg?maxAge=3600&style=flat)](https://david-dm.org/dominique-mueller/json-bundler)
-[![travis ci build status](https://img.shields.io/travis/dominique-mueller/json-bundler/master.svg?maxAge=3600&style=flat)](https://travis-ci.org/dominique-mueller/json-bundler)
-[![Codecov](https://img.shields.io/codecov/c/github/dominique-mueller/json-bundler.svg?maxAge=3600&style=flat)](https://codecov.io/gh/dominique-mueller/json-bundler)
-[![Known Vulnerabilities](https://snyk.io/test/github/dominique-mueller/json-bundler/badge.svg)](https://snyk.io/test/github/dominique-mueller/json-bundler)
-[![license](https://img.shields.io/npm/l/json-bundler.svg?maxAge=3600&style=flat)](https://github.com/dominique-mueller/json-bundler/LICENSE)
-
 </div>
 
 <br><br>
@@ -42,14 +35,13 @@ npm install json-bundler
 
 ### Requirements
 
-- **json-bundler** requires **NodeJS 7.6** (or higher) to be installed
-- If using Travis CI, we recommend setting the environment variable `FORCE_COLOR` to `1` in order to enable colored logging
+- **json-bundler** requires **NodeJS 10** (or higher) to be installed
 
 <br><br><br>
 
 ## How it works
 
-Using the **json-bundler** is very straightforward. In general:
+Using **json-bundler** means:
 
 - **Entry Point**<br>
   There must be exactly one JSON file acting as the singular entry point (e.g. `index.json` or `en.json`).
@@ -203,13 +195,3 @@ The result is a JSON file at `dist/en.json`, and it contains the following:
 - Files are included, no matter if they are `json` or `json5`, no matter if they exist within the project or come from a library
 - The `home/title` has the value of the `src/app/en.json` file, and not the value defined in `src/app/pages/home.json` - the
   "parent" (aka the referencee) always has higher priority than the referenced file during merge
-
-<br><br><br>
-
-## Creator
-
-**Dominique Müller**
-
-- E-Mail: **[dominique.m.mueller@gmail.com](mailto:dominique.m.mueller@gmail.com)**
-- Website: **[www.devdom.io](https://www.devdom.io/)**
-- Twitter: **[@itsdevdom](https://twitter.com/itsdevdom)**
