@@ -32,7 +32,7 @@
     "chalk": "4.1.x",
     "chokidar": "3.5.x",
     "fs-extra": "9.1.x",
-    "json5": "2.2.x",
+    "json5": "2.2.2",
     "log-update": "4.0.x",
     "yargs": "16.2.x"
   },
