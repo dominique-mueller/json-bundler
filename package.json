@@ -30,7 +30,7 @@
   "dependencies": {
     "assign-deep": "1.0.x",
     "chalk": "4.1.x",
-    "chokidar": "3.5.x",
+    "chokidar": "4.0.0",
     "fs-extra": "9.1.x",
     "json5": "2.2.x",
     "log-update": "4.0.x",
