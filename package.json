@@ -34,7 +34,7 @@
     "fs-extra": "9.1.x",
     "json5": "2.2.x",
     "log-update": "4.0.x",
-    "yargs": "16.2.x"
+    "yargs": "18.0.0"
   },
   "devDependencies": {
     "@types/jest": "26.0.x",
